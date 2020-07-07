@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { addCount, subtractionCount } from '../../redux/actions';
 import './state-effect.less';
 
 const StateAndEffect = () => {
@@ -31,7 +33,7 @@ const StateAndEffect = () => {
   //   // eslint-disable-next-line
   //   useEffect(() => () => console.log('componentWillUnmount'), []);
 
-  const addCount = () => {
+  const addCountLocal = () => {
     setCount(count + 1);
   };
 
@@ -40,10 +42,13 @@ const StateAndEffect = () => {
     setPeople({ ...people, age: 18 });
   };
 
+  // 用 useDispatch 產生 dispatch 方法
+  const dispatch = useDispatch();
+
   return (
     <div className="stateEffect">
       <h2>{count}</h2>
-      <button type="button" onClick={addCount}>
+      <button type="button" onClick={addCountLocal}>
         點擊加1
       </button>
 
@@ -59,6 +64,14 @@ const StateAndEffect = () => {
       </h2>
       <button type="button" onClick={addAge}>
         點擊就有年紀了唷
+      </button>
+
+      <h2>{useSelector((state) => state.count)}</h2>
+      <button type="button" onClick={() => dispatch(addCount())}>
+        點擊加1，這是運用redux的
+      </button>
+      <button type="button" onClick={() => dispatch(subtractionCount())}>
+        點擊減1，這是運用redux的
       </button>
     </div>
   );
